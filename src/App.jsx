@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
-import { Routes, Route, Link } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import './App.css'
-import Chat from './components/Chat/index.jsx'
+import Chat from './pages/Chat.tsx'
 
 function App() {
   // App states to track different processes and store values
@@ -83,60 +83,9 @@ function App() {
   }
 
   return (
-        <div className="main">
-          <h1>Email Management Assistant</h1>
-          <nav className="navbar">
-            <Link to="/" className="nav-link">
-              Login
-            </Link>
-            <Link to="/chat" className="nav-link">
-              Chat
-            </Link>
-          </nav>
-          <Routes>
-            <Route path="/" element={
-              <div className="card">
-                <div className="status-section">
-                  <h3>Server Status</h3>
-                  {serverStatus ? (
-                    <p className="success-message">
-                      MCP Server is running
-                    </p>
-                  ) : (
-                    <p className="error-message">
-                      MCP Server is not running, please start the server
-                    </p>
-                  )}
-                </div>
-                <div className="status-section">
-                  <h3>Authentication Status</h3>
-                  {!serverStatus ? (
-                    <p className="warning-message">
-                      ⏳ Start server first to check authentication
-                    </p>
-                  ) : isAuthenticated ? (
-                    <div>
-                      <p className="success-message">
-                        ✅ Authenticated as: {userEmail}
-                      </p>
-                      <button
-                        onClick={handleGoogleLogout}
-                        className="pointer-button button"
-                      >
-                        Logout
-                      </button>
-                    </div>
-                  ) : (
-                    <p className="error-message">
-                      ❌ Not authenticated - please authenticate with Gmail
-                    </p>
-                  )}
-                </div>
-              </div>
-            } />
-            <Route path="/chat" element={<Chat isAuthenticated={isAuthenticated} userEmail={userEmail}/>}/>
-          </Routes>
-        </div>
+    <Routes>
+      <Route path="/" element={<Chat isAuthenticated={isAuthenticated} userEmail={userEmail}/>}/>
+    </Routes>
   )
 }
 

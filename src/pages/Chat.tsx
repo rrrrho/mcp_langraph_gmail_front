@@ -1,17 +1,23 @@
 import { useState, useEffect, useRef } from 'react'
-import ReactMarkdown from 'react-markdown'
-import '../../App.css'
-import { Button, Fieldset, Flex, Stack, TextInput } from '@mantine/core'
-import Message from './Message'
+import './../App.css'
+import { Flex } from '@mantine/core'
+import ChatBox from '../components/Chat/ChatBox'
+import InputBox from '../components/Chat/InputBox'
 
-const Chat = ({ isAuthenticated, userEmail }) => {
-    // Chat state and references
+type ChatProps = {
+    isAuthenticated: boolean;
+    userEmail?: string;
+}
+
+const Chat = ({ isAuthenticated }: ChatProps) => {
     const [messages, setMessages] = useState<string[]>([])
     const [inputMessage, setInputMessage] = useState<string>('')
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [sessionId, setSessionId] = useState<string | null>(null)
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
     const abortControllerRef = useRef<AbortController | null>(null);
+    const [isChatStarted, setIsChatStarted] = useState(false);
+    const viewportRef = useRef<HTMLDivElement>(null);
 
     // load env variable
     const BASE_URL = import.meta.env.VITE_REACT_APP_SERVER_URL;
@@ -39,6 +45,7 @@ const Chat = ({ isAuthenticated, userEmail }) => {
 
         try {
             setIsLoading(true)
+            setIsChatStarted(true);
             // add user message to messages
             setMessages(prev => [...prev, `User: ${inputMessage}`])
 
@@ -89,7 +96,7 @@ const Chat = ({ isAuthenticated, userEmail }) => {
             const userMessageToSend = messageToSend;
 
             // update agent message helper function
-            const updateAgentMessage = (content) => {
+            const updateAgentMessage = (content: any) => {
                 setMessages(prev => {
                     const newMessages = [...prev];
                     newMessages[agentMessageIndex] = `Agent: ${content}`;
@@ -98,7 +105,7 @@ const Chat = ({ isAuthenticated, userEmail }) => {
             };
 
             // update error message helper function
-            const updateErrorMessage = (error) => {
+            const updateErrorMessage = (error: any) => {
                 setMessages(prev => {
                     const newMessages = [...prev];
                     newMessages[agentMessageIndex] = `Error: ${error}`;
@@ -153,7 +160,7 @@ const Chat = ({ isAuthenticated, userEmail }) => {
                     }       
                 }
             }  
-        } catch (error) {
+        } catch (error: any) {
             // check if request is aborted
             if (error.name === 'AbortError') {
                 console.log('Request aborted');
@@ -166,80 +173,27 @@ const Chat = ({ isAuthenticated, userEmail }) => {
         }
     }
 
-    const convertInput = (input: string): string => {
-        return input.toLowerCase().replace(':', '').trim();
-    };
-
-    const cleanMessage = (text: string): string => {
-        return text.replace(/^(User|Agent):\s*/i, "");
-    }
-
     return (
-        <div className="chat-container">
-            <h2>Email Management Chat</h2>
+        <Flex 
+        py={isChatStarted ? 50 : 0} 
+        direction={'column'}
+        justify={'center'}
+        align={'center'}
+        h={'90vh'}
+        >
+            {/* message area */}
+            <ChatBox isChatStarted={isChatStarted} messages={messages} viewportRef={viewportRef}/>
 
-            {!isAuthenticated ? (
-                <div className="auth-required">
-                    <h3>Authentication Required</h3>
-                    <p>Please go to the Home page and authenticate with Gmail to use the chat features.</p>
-                </div>
-            ) : (
-                <>
-                    <div className="auth-message">
-                        ✓ Authenticated as: {userEmail}
-                    </div>
-
-                    <Stack
-                    mih={"300"}
-                    align="stretch"
-                    gap={'md'}
-                    >
-                        {messages.length === 0 ? (
-                            <p>Start chatting to manage your emails.</p>
-                        ) : (
-                            messages.map((msg, index) => {
-                                const isUser = msg.startsWith('User:');
-                                return (
-                                    <Message
-                                        key={index}
-                                        text={cleanMessage(msg)}
-                                        sender={isUser ? 'user' : 'agent'}
-                                    />
-                                )
-                            })
-                        )}
-                        <div ref={messagesEndRef} />
-                    </Stack>
-
-                <Fieldset bd={"none"}>
-                    <Flex gap={10} >
-                        <TextInput
-                            w={"90%"}
-                            disabled={isLoading}
-                            placeholder="Ask about your emails..."
-                            onChange={(e) => setInputMessage(e.target.value)}
-                            onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-                        />
-                        {isLoading ? (
-                            <Button
-                                onClick={stopStreaming}
-                            >
-                                Stop
-                            </Button>
-                        ) : (
-                            <Button
-                                onClick={sendMessage}
-                                disabled={!inputMessage.trim()}
-                            >
-                                Send
-                            </Button>
-                        )}
-                    </Flex>
-                </Fieldset>
-                </>
-            )}
-        </div>
-    )
+            {/* input area */}
+            <InputBox 
+            sendMessage={sendMessage} 
+            stopStreaming={stopStreaming} 
+            inputMessage={inputMessage} 
+            setInputMessage={setInputMessage} 
+            isLoading={isLoading} 
+            isChatStarted={isChatStarted}/>
+        </Flex>
+    ) 
 }
 
 export default Chat;

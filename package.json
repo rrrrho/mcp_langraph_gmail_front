@@ -10,9 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
     "@mantine/core": "^8.3.10",
     "@mantine/form": "^8.3.10",
     "@mantine/hooks": "^8.3.10",
+    "@tabler/icons": "^3.36.0",
+    "@tabler/icons-react": "^3.36.0",
+    "framer-motion": "^12.23.26",
+    "gsap": "^3.14.2",
     "html-to-text": "^9.0.5",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",

@@ -1,0 +1,21 @@
+.input {
+  transition: none;
+  background-color: #262626;
+  caret-color: white;
+  border: none;
+  padding: 1.4rem;
+  color: #A4ACA9;
+
+  &:focus-within {
+    border: none;
+  }
+}
+
+.button {
+  color: #A4ACA9;
+  margin-right: 1rem;
+
+  &:disabled {
+    background: none;
+  }
+}

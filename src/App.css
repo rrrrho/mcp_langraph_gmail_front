@@ -1,4 +1,18 @@
 /* MAIN APP */
+:root {
+    min-height: 100vh;
+}
+
+
+.area::-webkit-scrollbar{
+    background-color: #121212;
+    width: 0.6rem;
+}
+
+.area::-webkit-scrollbar-thumb{
+    background-color: #262626;
+    border-radius: 15px;
+}
 
 .main {
     padding: 20px;
