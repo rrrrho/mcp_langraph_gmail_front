@@ -16,7 +16,7 @@ const ChatBox = ({isChatStarted, messages, viewportRef}: ChatBoxProps) => {
         style={{ overflowY: 'auto', position: 'relative'  }}
         className='area' 
         ref={viewportRef}
-        w={'35vw'}
+        w={{ base: '80vw', xl: '35vw'}}
         >
             <AnimatePresence>
                 {isChatStarted && (

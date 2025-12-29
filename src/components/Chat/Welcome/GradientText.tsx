@@ -1,3 +1,4 @@
+import { Text, type MantineFontSize, type StyleProp } from '@mantine/core';
 import './GradientText.css';
 import { type ReactNode } from 'react';
 
@@ -7,6 +8,7 @@ interface GradientTextProps {
   colors?: string[];
   animationSpeed?: number;
   showBorder?: boolean;
+  size?: StyleProp<MantineFontSize>;
 }
 
 export default function GradientText({
@@ -14,7 +16,8 @@ export default function GradientText({
   className = '',
   colors = ['#40ffaa', '#4079ff', '#40ffaa', '#4079ff', '#40ffaa'],
   animationSpeed = 8,
-  showBorder = false
+  showBorder = false,
+  size = 'md'
 }: GradientTextProps) {
   const gradientStyle = {
     backgroundImage: `linear-gradient(to right, ${colors.join(', ')})`,
@@ -25,7 +28,14 @@ export default function GradientText({
     <div className={`animated-gradient-text ${className}`}>
       {showBorder && <div className="gradient-overlay" style={gradientStyle}></div>}
       <div className="text-content" style={gradientStyle}>
-        {children}
+        <Text 
+        span
+        fz={size}
+        inherit
+        style={{ color: 'transparent', WebkitBackgroundClip: 'text', backgroundClip: 'text' }}
+        >
+          {children}
+        </Text>
       </div>
     </div>
   );

@@ -1,7 +1,8 @@
-import { rem, Stack, Text } from "@mantine/core";
+import { Avatar, Flex, rem, Stack, Text } from "@mantine/core";
 import { motion, AnimatePresence } from "framer-motion";
 import GradientText from "./Welcome/GradientText";
 import Sender from "./Sender";
+import Image from '../../assets/logo.png'
 
 type InputBoxProps = {
     isChatStarted: boolean;
@@ -18,7 +19,7 @@ const InputBox = ({isChatStarted, isLoading, stopStreaming, sendMessage, setInpu
         layout
         transition={{ type: 'spring', bounce: 0, duration: 0.6 }}
         style={{
-        width: '35vw',
+        width: '100%',
         marginTop: isChatStarted ? 0 : 'auto', 
         marginBottom: isChatStarted ? rem(20) : 'auto',
         zIndex: 10
@@ -32,16 +33,20 @@ const InputBox = ({isChatStarted, isLoading, stopStreaming, sendMessage, setInpu
                             exit={{ opacity: 0, height: 0, overflow: 'hidden' }}
                             transition={{ duration: 0.3 }}
                         >
-                            <Stack align="center">
+                            <Flex>
                             
+                            <Avatar src={Image}
+                            h={{ base: '4rem', sm: '5rem' }} 
+                            w={{ base: '4rem', sm: '5rem'}}  pb={6}/>
                             <GradientText
                             colors={["#9F170C", "#CE1E10", "#EE3223", "#F25E52", "#F68A81"]}
                             animationSpeed={3}
                             showBorder={false}
+                            size={{base: '1.8rem', sm: '2.5rem'}}
                             >
                             How can I help you?
                             </GradientText>
-                            </Stack>
+                            </Flex>
                         </motion.div>
                     )}
                 </AnimatePresence>

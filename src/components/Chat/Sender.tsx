@@ -14,7 +14,7 @@ const Sender = ({ isLoading, inputMessage, stopStreaming, sendMessage, setInputM
     return (
         <TextInput
         classNames={{ input: styles.input }}
-        w={'100%'}
+        w={{ base: '100%', md: '100%'}}
         radius="xl"
         value={inputMessage}
         disabled={isLoading}
@@ -24,7 +24,7 @@ const Sender = ({ isLoading, inputMessage, stopStreaming, sendMessage, setInputM
         rightSectionPointerEvents="all"
         rightSection={isLoading ? (
             <ActionIcon variant="transparent" classNames={{ root: styles.button }} onClick={stopStreaming}>
-                <IconX color="#121212" size={20} stroke={1.5}/>
+                <IconX color="#383838" size={20} stroke={1.5}/>
             </ActionIcon>
         ) : (
             <ActionIcon

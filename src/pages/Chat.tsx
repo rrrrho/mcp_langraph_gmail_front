@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import './../App.css'
-import { Flex } from '@mantine/core'
+import { Flex, Stack } from '@mantine/core'
 import ChatBox from '../components/Chat/ChatBox'
 import InputBox from '../components/Chat/InputBox'
 
@@ -174,11 +174,9 @@ const Chat = ({ isAuthenticated }: ChatProps) => {
     }
 
     return (
-        <Flex 
+        <Stack 
         py={isChatStarted ? 50 : 0} 
-        direction={'column'}
-        justify={'center'}
-        align={'center'}
+        align='center'
         h={'90vh'}
         >
             {/* message area */}
@@ -192,7 +190,7 @@ const Chat = ({ isAuthenticated }: ChatProps) => {
             setInputMessage={setInputMessage} 
             isLoading={isLoading} 
             isChatStarted={isChatStarted}/>
-        </Flex>
+        </Stack>
     ) 
 }
 

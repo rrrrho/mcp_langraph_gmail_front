@@ -1,11 +1,9 @@
-import { Avatar, Flex, Text } from "@mantine/core";
-import Image from '../../assets/logo.png'
+import { Flex, Text } from "@mantine/core";
 
 const Logo = () => {
     return (
         <Flex align={'center'}>
-            <Avatar src={Image} size={'lg'}/>
-            <Text c={'#6D6D6D'} size="1.3rem" mt={15} fw={600}>Capricorn</Text>
+            <Text c={'#6D6D6D'} size={"1.4rem"} ml={10} fw={600}>Tauro</Text>
         </Flex>
     )
 }
