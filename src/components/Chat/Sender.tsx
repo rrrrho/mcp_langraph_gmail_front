@@ -1,26 +1,32 @@
 import { TextInput, ActionIcon } from "@mantine/core";
 import { IconBrandTelegram, IconX } from "@tabler/icons-react";
 import styles from './input.module.css';
+import { useState } from "react";
 
 type SenderProps = {
     isLoading: boolean;
-    inputMessage: string;
     stopStreaming: () => void;
-    sendMessage: () => void;
-    setInputMessage: (value: string) => void;
+    sendMessage: (value: string) => void;
 }
 
-const Sender = ({ isLoading, inputMessage, stopStreaming, sendMessage, setInputMessage }: SenderProps) => {
+const Sender = ({ isLoading, stopStreaming, sendMessage, }: SenderProps) => {
+    const [input, setInput] = useState('');
+
+    const handleSend = () => {
+        sendMessage(input);
+        setInput('');
+    }
+    
     return (
         <TextInput
         classNames={{ input: styles.input }}
         w={{ base: '100%', md: '100%'}}
         radius="xl"
-        value={inputMessage}
+        value={input}
         disabled={isLoading}
         placeholder="Ask about your emails..."
-        onChange={(e) => setInputMessage(e.target.value)}
-        onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+        onChange={(e) => setInput(e.target.value)}
+        onKeyPress={(e) => e.key === 'Enter' && handleSend()}
         rightSectionPointerEvents="all"
         rightSection={isLoading ? (
             <ActionIcon variant="transparent" classNames={{ root: styles.button }} onClick={stopStreaming}>
@@ -31,8 +37,8 @@ const Sender = ({ isLoading, inputMessage, stopStreaming, sendMessage, setInputM
             classNames={{ root: styles.button }}
             variant="transparent" 
             color="withesmoke"
-            onClick={sendMessage}
-            disabled={!inputMessage.trim()}
+            onClick={handleSend}
+            disabled={!input.trim()}
             >
                 <IconBrandTelegram size={20} stroke={1.5}/>
             </ActionIcon>

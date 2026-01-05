@@ -2,10 +2,11 @@ import { Box, Stack } from "@mantine/core";
 import { AnimatePresence, motion } from "framer-motion";
 import Message from "./Conversation/Message.tsx";
 import type { Ref } from "react";
+import type { ChatMessage } from "../../hooks/useChatStream.ts";
 
 type ChatBoxProps = {
     isChatStarted: boolean,
-    messages: string[],
+    messages: ChatMessage[],
     viewportRef: Ref<HTMLDivElement>
 }
 
@@ -29,11 +30,11 @@ const ChatBox = ({isChatStarted, messages, viewportRef}: ChatBoxProps) => {
                             animate={{ opacity: 1, y: 0 }}
                             style={{ 
                                 display: 'flex', 
-                                justifyContent: msg.startsWith('User:') ? 'flex-end' : 'flex-start',
+                                justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start',
                                 gap: 4
                             }}
                             >
-                                <Message msg={msg} />
+                                <Message content={msg.content} role={msg.role}/>
                             </motion.div>
                         ))}
                     </Stack>

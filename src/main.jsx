@@ -6,6 +6,7 @@ import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom'
 import { MantineProvider, createTheme } from '@mantine/core';
 import Layout from './components/Layout/index.tsx'
+import { AuthProvider } from './context/AuthContext';
 
 const theme = createTheme({
   autoContrast: true,
@@ -26,11 +27,13 @@ const theme = createTheme({
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
-      <MantineProvider theme={theme}>
-        <Layout>
-          <App />
-        </Layout>
-      </MantineProvider>
+      <AuthProvider>
+        <MantineProvider theme={theme}>
+          <Layout>
+            <App />
+          </Layout>
+        </MantineProvider>
+      </AuthProvider>
     </BrowserRouter>
   </StrictMode>,
 )

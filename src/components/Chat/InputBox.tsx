@@ -5,15 +5,13 @@ import Sender from "./Sender";
 import Image from '../../assets/logo.png'
 
 type InputBoxProps = {
-    isChatStarted: boolean;
-    isLoading: boolean;
-    inputMessage: string;
-    stopStreaming: () => void;
-    sendMessage: () => void;
-    setInputMessage: (value: string) => void;
+    handleSendMessage: (value: string) => void,
+    isChatStarted: boolean,
+    isLoading: boolean,
+    stopStreaming: () => void
 }
 
-const InputBox = ({isChatStarted, isLoading, stopStreaming, sendMessage, setInputMessage, inputMessage}: InputBoxProps) => {
+const InputBox = ({ isChatStarted, isLoading, handleSendMessage, stopStreaming }: InputBoxProps) => {
     return (
         <motion.div
         layout
@@ -52,11 +50,9 @@ const InputBox = ({isChatStarted, isLoading, stopStreaming, sendMessage, setInpu
                 </AnimatePresence>
 
                 <Sender 
+                isLoading={isLoading}
                 stopStreaming={stopStreaming}
-                isLoading={isLoading} 
-                inputMessage={inputMessage} 
-                sendMessage={sendMessage} 
-                setInputMessage={setInputMessage} />
+                sendMessage={handleSendMessage}/>
 
                 {!isChatStarted && (
                     <motion.div exit={{ opacity: 0 }}>

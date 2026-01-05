@@ -1,8 +1,8 @@
 import { Paper, Text } from "@mantine/core";
-import classes from './chat.module.css';
 
 type MessageProps = {
-    msg: string;
+    content: string,
+    role: 'user' | 'agent' | 'error'
 }
 
 const userStyles: React.CSSProperties = {
@@ -21,21 +21,15 @@ const agentStyles: React.CSSProperties = {
     color: '#F9B6B1'
 }
 
-const Message = ({ msg }: MessageProps) => {
-
-
-    const cleanMessage = (text: string): string => {
-        return text.replace(/^(User|Agent):\s*/i, "");
-    }
-
+const Message = ({ content, role }: MessageProps) => {
     return (
         <Paper 
         p="md" 
         radius="lg" 
         maw={'80%'}
-        style={msg.startsWith('User:') ? userStyles : agentStyles}
+        style={role === 'user' ? userStyles : agentStyles}
         >
-            <Text size="sm">{cleanMessage(msg)}</Text>
+            <Text size="sm">{content}</Text>
         </Paper>
     )
 }
